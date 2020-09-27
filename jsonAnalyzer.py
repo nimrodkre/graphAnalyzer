@@ -1,6 +1,7 @@
 import json
 from graphAnalyzerError import graphAnalyzerError
 
+
 class jsonAnalyzer:
     def __init__(self):
         with open("graphDescription.json", "r") as json_data:
@@ -9,8 +10,10 @@ class jsonAnalyzer:
         self.excel_file_location = self.graph_data["excel_file_location"]
         self.x_axis_column_name = self.graph_data["x_axis_column_name"]
         self.y_axis_column_name = self.graph_data["y_axis_column_name"]
-        self.x_axis_errors_column_name = self.graph_data["x_axis_errors_column_name"]
-        self.y_axis_errors_column_name = self.graph_data["y_axis_errors_column_name"]
+        self.x_axis_errors_column_name = self.graph_data[
+            "x_axis_errors_column_name"]
+        self.y_axis_errors_column_name = self.graph_data[
+            "y_axis_errors_column_name"]
         self.graph_title = self.graph_data["graph_title"]
         self.x_scale_label_title = self.graph_data["x_scale_label_title"]
         self.x_scale_minimum = self.graph_data["x_scale_minimum"]
@@ -89,3 +92,73 @@ class jsonAnalyzer:
         if not type(col_name) == str:
             raise graphAnalyzerError("y axis column name must be a string")
         self.y_axis_column_name = col_name
+
+    @x_axis_errors_column_name.setter
+    def x_axis_errors_column_name(self, col_name):
+        if not type(col_name) == str:
+            raise graphAnalyzerError(
+                "x axis errors column name must be a string")
+        self.x_axis_errors_column_name = col_name
+
+    @y_axis_errors_column_name.setter
+    def y_axis_errors_column_name(self, col_name):
+        if not type(col_name) == str:
+            raise graphAnalyzerError(
+                "y axis errors column name must be a string")
+        self.y_axis_errors_column_name = col_name
+
+    @graph_title.setter
+    def graph_title(self, title):
+        if not type(title) == str:
+            raise graphAnalyzerError(
+                "graph title must be a string")
+        self.x_axis_errors_column_name = title
+
+    @x_scale_label_title.setter
+    def x_scale_label_title(self, title):
+        if not type(title) == str:
+            raise graphAnalyzerError(
+                "x scale label title must be a string")
+        self.x_scale_label_title = title
+
+    @x_scale_minimum.setter
+    def x_scale_minimum(self, title):
+        if not type(title) == float:
+            raise graphAnalyzerError(
+                "x scale minimum title must be a float")
+        self.x_scale_minimum = title
+
+    @x_scale_maximum.setter
+    def x_scale_maximum(self, title):
+        if not type(title) == str:
+            raise graphAnalyzerError(
+                "x scale maximum title must be a float")
+        self.x_scale_maximum = title
+
+    @y_scale_label_title.setter
+    def y_scale_label_title(self, title):
+        if not type(title) == str:
+            raise graphAnalyzerError(
+                "y scale label title must be a string")
+        self.y_scale_label_title = title
+
+    @y_scale_minimum.setter
+    def y_scale_minimum(self, title):
+        if not type(title) == float:
+            raise graphAnalyzerError(
+                "y scale minimum title must be a float")
+        self.y_scale_minimum = title
+
+    @y_scale_maximum.setter
+    def y_scale_maximum(self, title):
+        if not type(title) == str:
+            raise graphAnalyzerError(
+                "y scale maximum title must be a float")
+        self.y_scale_maximum = title
+
+    @graph_equation.setter
+    def graph_equation(self, equation):
+        if not type(equation) == str:
+            raise graphAnalyzerError(
+                "equation must be a string")
+        self.graph_equation = equation
