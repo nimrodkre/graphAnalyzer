@@ -22,8 +22,9 @@ class JsonAnalyzer:
             self.y_scale_minimum = self.graph_data["y_scale_minimum"]
             self.y_scale_maximum = self.graph_data["y_scale_maximum"]
         except KeyError as err:
-            raise GraphAnalyzerError("In the json file you forgot to add a row for {}. \n"
-                                     "Look at the documentation".format(err))
+            raise GraphAnalyzerError(
+                "In the json file you forgot to add a row for {}. \n"
+                "Look at the documentation".format(err))
 
     @property
     def excel_file_location(self):
@@ -153,4 +154,3 @@ class JsonAnalyzer:
             raise GraphAnalyzerError(
                 "y scale maximum must be a float")
         self._y_scale_maximum = title
-

@@ -9,6 +9,7 @@ import inspect
 import ctypes
 
 SCALE_LIMIT = 0.25
+MAX_FEV = 25000
 
 
 class GraphBuilder:
@@ -19,8 +20,8 @@ class GraphBuilder:
         self.y_data = self.csv_analyzer.get_y_data()
 
     def check_data(self):
-        if len(self.csv_analyzer.get_x_data()) == len(
-               self.csv_analyzer.get_y_data()) == len(
+        if len(self.x_data) == len(
+               self.y_data) == len(
                self.csv_analyzer.get_x_error_data()) == len(
                self.csv_analyzer.get_y_error_data()):
             return True
@@ -28,14 +29,20 @@ class GraphBuilder:
             "The length of the columns received are not equal")
 
     def get_xlimit(self):
+        """
+        If the xlimits are empty than the limits will be according the given
+        data.
+        Else we will use what the user wanted
+        :return:
+        """
         if any([self.json_analyzer.x_scale_minimum,
                 self.json_analyzer.x_scale_maximum]):
             return (self.json_analyzer.x_scale_minimum,
                     self.json_analyzer.x_scale_maximum)
-        return (min(self.csv_analyzer.get_x_data()) - max(
-            self.csv_analyzer.get_x_data()) * SCALE_LIMIT,
-                max(self.csv_analyzer.get_x_data()) + max(
-                    self.csv_analyzer.get_x_data()) * SCALE_LIMIT)
+        return (min(self.x_data) - max(
+            self.x_data) * SCALE_LIMIT,
+                max(self.x_data) + max(
+                    self.x_data) * SCALE_LIMIT)
 
     def get_ylimit(self):
         if any([self.json_analyzer.y_scale_minimum,
@@ -44,8 +51,8 @@ class GraphBuilder:
                     self.json_analyzer.y_scale_maximum)
         return (min(self.csv_analyzer.get_y_data()) - max(
             self.csv_analyzer.get_y_data()) * SCALE_LIMIT,
-                max(self.csv_analyzer.get_y_data()) + max(
-                    self.csv_analyzer.get_y_data()) * SCALE_LIMIT)
+                max(self.y_data) + max(
+                    self.y_data) * SCALE_LIMIT)
 
     def init_graph(self):
         plt.xlim(self.get_xlimit())
@@ -55,19 +62,25 @@ class GraphBuilder:
         plt.ylabel(self.json_analyzer.y_scale_label_title)
 
     def build_graph(self):
+        """
+        In charge of building the graph.
+        First builds an error bar graph, with the user configuration.
+        After that calculates the treadline and builds the relevant graph.
+        :return:
+        """
         self.init_graph()
         plt.errorbar(self.x_data,
-                     self.y_data ,
+                     self.y_data,
                      xerr=self.csv_analyzer.get_x_error_data(),
                      yerr=self.csv_analyzer.get_y_error_data(), fmt='--o',
                      linestyle='None', ecolor="red", color="black")
         opt, cov = curve_fit(equation,
-                             np.array(self.csv_analyzer.get_x_data()),
-                             np.array(self.csv_analyzer.get_y_data()),
-                             maxfev=25000)
-        treadline_x = np.linspace(min(self.csv_analyzer.get_x_data()),
-                                  max(self.csv_analyzer.get_x_data()),
-                                  len(self.csv_analyzer.get_x_data()) * 10)
+                             np.array(self.x_data),
+                             np.array(self.y_data),
+                             maxfev=MAX_FEV)
+        treadline_x = np.linspace(min(self.x_data),
+                                  max(self.x_data),
+                                  len(self.x_data) * 10)
         treadline_y = equation(treadline_x, *opt)
         plt.plot(treadline_x, treadline_y)
         plt.show()
@@ -76,9 +89,10 @@ class GraphBuilder:
 
     def build_residual_graph(self, opt):
         diff = []
-        for i, xval in enumerate(self.csv_analyzer.get_x_data()):
-            diff.append([self.y_data [i] - equation(xval, *opt)])
-        plt.ylim((min(diff)[0] - max(diff)[0] * SCALE_LIMIT, max(diff)[0] + max(diff)[0] * SCALE_LIMIT))
+        for i, xval in enumerate(self.x_data):
+            diff.append([self.y_data[i] - equation(xval, *opt)])
+        plt.ylim((min(diff)[0] - max(diff)[0] * SCALE_LIMIT,
+                  max(diff)[0] + max(diff)[0] * SCALE_LIMIT))
         self.init_graph()
         plt.scatter(self.x_data, diff)
         plt.show()
@@ -90,14 +104,3 @@ class GraphBuilder:
         for i in range(len(opt)):
             msg += "{}: {} \n".format(args[i], opt[i])
         ctypes.windll.user32.MessageBoxW(0, msg, "variables", 1)
-
-
-
-json = JsonAnalyzer()
-csv = CsvAnalyzer(json.excel_file_location, json.x_axis_column_name,
-                  json.y_axis_column_name, json.x_axis_errors_column_name,
-                  json.y_axis_errors_column_name)
-graph = GraphBuilder(json, csv)
-opt = graph.build_graph()
-graph.build_residual_graph(opt)
-GraphBuilder.print_opt(opt)
