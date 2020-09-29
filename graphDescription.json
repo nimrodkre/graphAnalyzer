@@ -1,15 +1,14 @@
 {
   "excel_file_location": "C:\\Users\\User\\Downloads\\part2inductorA-fall.csv",
-  "x_axis_column_name": "nimrod",
-  "y_axis_column_name": "roni",
-  "x_axis_errors_column_name": "dfg",
-  "y_axis_errors_column_name": "dfg",
-  "graph_title": "sdfg",
+  "x_axis_column_name": "xscale",
+  "y_axis_column_name": "yscale",
+  "x_axis_errors_column_name": "xerror",
+  "y_axis_errors_column_name": "yerror",
+  "graph_title": "testing",
   "x_scale_label_title": "sdfg",
   "x_scale_minimum": 0,
-  "x_scale_maximum": 10,
+  "x_scale_maximum": 0,
   "y_scale_label_title": "gh",
   "y_scale_minimum": 0,
-  "y_scale_maximum": 100,
-  "graph_equation": "A*x"
+  "y_scale_maximum": 0
 }

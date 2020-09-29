@@ -6,22 +6,24 @@ class JsonAnalyzer:
     def __init__(self):
         with open("graphDescription.json", "r") as json_data:
             self.graph_data = json.load(json_data, strict=False)
-        print(self.graph_data)
-        self.excel_file_location = self.graph_data["excel_file_location"]
-        self.x_axis_column_name = self.graph_data["x_axis_column_name"]
-        self.y_axis_column_name = self.graph_data["y_axis_column_name"]
-        self.x_axis_errors_column_name = self.graph_data[
-            "x_axis_errors_column_name"]
-        self.y_axis_errors_column_name = self.graph_data[
-            "y_axis_errors_column_name"]
-        self.graph_title = self.graph_data["graph_title"]
-        self.x_scale_label_title = self.graph_data["x_scale_label_title"]
-        self.x_scale_minimum = self.graph_data["x_scale_minimum"]
-        self.x_scale_maximum = self.graph_data["x_scale_maximum"]
-        self.y_scale_label_title = self.graph_data["y_scale_label_title"]
-        self.y_scale_minimum = self.graph_data["y_scale_minimum"]
-        self.y_scale_maximum = self.graph_data["y_scale_maximum"]
-        self.graph_equation = self.graph_data["graph_equation"]
+        try:
+            self.excel_file_location = self.graph_data["excel_file_location"]
+            self.x_axis_column_name = self.graph_data["x_axis_column_name"]
+            self.y_axis_column_name = self.graph_data["y_axis_column_name"]
+            self.x_axis_errors_column_name = self.graph_data[
+                "x_axis_errors_column_name"]
+            self.y_axis_errors_column_name = self.graph_data[
+                "y_axis_errors_column_name"]
+            self.graph_title = self.graph_data["graph_title"]
+            self.x_scale_label_title = self.graph_data["x_scale_label_title"]
+            self.x_scale_minimum = self.graph_data["x_scale_minimum"]
+            self.x_scale_maximum = self.graph_data["x_scale_maximum"]
+            self.y_scale_label_title = self.graph_data["y_scale_label_title"]
+            self.y_scale_minimum = self.graph_data["y_scale_minimum"]
+            self.y_scale_maximum = self.graph_data["y_scale_maximum"]
+        except KeyError as err:
+            raise graphAnalyzerError("In the json file you forgot to add a row for {}. \n"
+                                     "Look at the documentation".format(err))
 
     @property
     def excel_file_location(self):
@@ -70,10 +72,6 @@ class JsonAnalyzer:
     @property
     def y_scale_maximum(self):
         return self._y_scale_maximum
-
-    @property
-    def graph_equation(self):
-        return self._graph_equation
 
     @excel_file_location.setter
     def excel_file_location(self, location):
@@ -156,9 +154,3 @@ class JsonAnalyzer:
                 "y scale maximum must be a float")
         self._y_scale_maximum = title
 
-    @graph_equation.setter
-    def graph_equation(self, equation):
-        if not type(equation) == str:
-            raise graphAnalyzerError(
-                "equation must be a string")
-        self._graph_equation = equation
