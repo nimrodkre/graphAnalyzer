@@ -1,5 +1,5 @@
 import pandas as pd
-from graphAnalyzerError import graphAnalyzerError
+from GraphAnalyzerError import GraphAnalyzerError
 import math
 
 
@@ -17,7 +17,7 @@ class CsvAnalyzer:
             return [data for data in self.data[self.x_column_name] if
                     not math.isnan(data)]
         except KeyError:
-            raise graphAnalyzerError(
+            raise GraphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
                     self.x_column_name))
 
@@ -26,7 +26,7 @@ class CsvAnalyzer:
             return [data for data in self.data[self.y_column_name] if
                     not math.isnan(data)]
         except KeyError:
-            raise graphAnalyzerError(
+            raise GraphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
                     self.x_column_name))
 
@@ -37,7 +37,7 @@ class CsvAnalyzer:
             return [data if not math.isnan(data) else 0 for data in
                     self.data[self.x_error_name]]
         except KeyError:
-            raise graphAnalyzerError(
+            raise GraphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
                     self.x_error_name))
 
@@ -48,6 +48,6 @@ class CsvAnalyzer:
             return [data if not math.isnan(data) else 0 for data in
                     self.data[self.y_error_name]]
         except KeyError:
-            raise graphAnalyzerError(
+            raise GraphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
                     self.y_error_name))

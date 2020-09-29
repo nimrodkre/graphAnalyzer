@@ -1,0 +1,2 @@
+class GraphAnalyzerError(Exception):
+    pass

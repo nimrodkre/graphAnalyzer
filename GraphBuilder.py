@@ -1,10 +1,10 @@
 import numpy as np
-from csvAnalyzer import CsvAnalyzer
+from CsvAnalyzer import CsvAnalyzer
 import matplotlib.pyplot as plt
-from jsonAnalyzer import JsonAnalyzer
+from JsonAnalyzer import JsonAnalyzer
 from scipy.optimize import curve_fit
-from graphAnalyzerError import graphAnalyzerError
-from equation import equation
+from GraphAnalyzerError import GraphAnalyzerError
+from Equation import equation
 import inspect
 import ctypes
 
@@ -24,7 +24,7 @@ class GraphBuilder:
                self.csv_analyzer.get_x_error_data()) == len(
                self.csv_analyzer.get_y_error_data()):
             return True
-        raise graphAnalyzerError(
+        raise GraphAnalyzerError(
             "The length of the columns received are not equal")
 
     def get_xlimit(self):
@@ -70,7 +70,7 @@ class GraphBuilder:
                                   len(self.csv_analyzer.get_x_data()) * 10)
         treadline_y = equation(treadline_x, *opt)
         plt.plot(treadline_x, treadline_y)
-        # plt.show()
+        plt.show()
         plt.clf()
         return opt
 
@@ -99,5 +99,5 @@ csv = CsvAnalyzer(json.excel_file_location, json.x_axis_column_name,
                   json.y_axis_errors_column_name)
 graph = GraphBuilder(json, csv)
 opt = graph.build_graph()
-# graph.build_residual_graph(opt)
+graph.build_residual_graph(opt)
 GraphBuilder.print_opt(opt)
