@@ -5,6 +5,8 @@ from jsonAnalyzer import JsonAnalyzer
 from scipy.optimize import curve_fit
 from graphAnalyzerError import graphAnalyzerError
 from equation import equation
+import inspect
+import ctypes
 
 SCALE_LIMIT = 0.25
 
@@ -68,7 +70,7 @@ class GraphBuilder:
                                   len(self.csv_analyzer.get_x_data()) * 10)
         treadline_y = equation(treadline_x, *opt)
         plt.plot(treadline_x, treadline_y)
-        plt.show()
+        # plt.show()
         plt.clf()
         return opt
 
@@ -81,6 +83,15 @@ class GraphBuilder:
         plt.scatter(self.x_data, diff)
         plt.show()
 
+    @staticmethod
+    def print_opt(opt):
+        args = inspect.getfullargspec(equation).args[1:]
+        msg = "The variables found are: \n"
+        for i in range(len(opt)):
+            msg += "{}: {} \n".format(args[i], opt[i])
+        ctypes.windll.user32.MessageBoxW(0, msg, "variables", 1)
+
+
 
 json = JsonAnalyzer()
 csv = CsvAnalyzer(json.excel_file_location, json.x_axis_column_name,
@@ -88,4 +99,5 @@ csv = CsvAnalyzer(json.excel_file_location, json.x_axis_column_name,
                   json.y_axis_errors_column_name)
 graph = GraphBuilder(json, csv)
 opt = graph.build_graph()
-graph.build_residual_graph(opt)
+# graph.build_residual_graph(opt)
+GraphBuilder.print_opt(opt)

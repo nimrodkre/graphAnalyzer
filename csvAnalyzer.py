@@ -14,7 +14,8 @@ class CsvAnalyzer:
 
     def get_x_data(self):
         try:
-            return [data for data in self.data[self.x_column_name] if not math.isnan(data)]
+            return [data for data in self.data[self.x_column_name] if
+                    not math.isnan(data)]
         except KeyError:
             raise graphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
@@ -22,7 +23,8 @@ class CsvAnalyzer:
 
     def get_y_data(self):
         try:
-            return [data for data in self.data[self.y_column_name] if not math.isnan(data)]
+            return [data for data in self.data[self.y_column_name] if
+                    not math.isnan(data)]
         except KeyError:
             raise graphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
@@ -32,7 +34,8 @@ class CsvAnalyzer:
         if not self.x_error_name:
             return [0 for i in range(len(self.get_x_data()))]
         try:
-            return [data if not math.isnan(data) else 0 for data in self.data[self.x_error_name]]
+            return [data if not math.isnan(data) else 0 for data in
+                    self.data[self.x_error_name]]
         except KeyError:
             raise graphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
@@ -42,7 +45,8 @@ class CsvAnalyzer:
         if not self.y_error_name:
             return [0 for i in range(len(self.get_x_data()))]
         try:
-            return [data if not math.isnan(data) else 0 for data in self.data[self.y_error_name]]
+            return [data if not math.isnan(data) else 0 for data in
+                    self.data[self.y_error_name]]
         except KeyError:
             raise graphAnalyzerError(
                 "The following column does not exist in given csv: {}".format(
