@@ -77,7 +77,12 @@ class JsonAnalyzer:
     @excel_file_location.setter
     def excel_file_location(self, location):
         if not type(location) == str:
-            raise GraphAnalyzerError("file location must be a string")
+            raise GraphAnalyzerError("File location must be a string")
+        try:
+            file = open(location, 'r')
+            file.close()
+        except (IOError, FileNotFoundError, FileExistsError) as e:
+            raise GraphAnalyzerError("Csv file was not found")
         self._excel_file_location = location
 
     @x_axis_column_name.setter

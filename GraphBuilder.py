@@ -1,11 +1,9 @@
 import numpy as np
-from CsvAnalyzer import CsvAnalyzer
 import matplotlib.pyplot as plt
-from JsonAnalyzer import JsonAnalyzer
 from scipy.optimize import curve_fit
 from GraphAnalyzerError import GraphAnalyzerError
 from Equation import equation
-import inspect
+from inspect import getfullargspec
 import ctypes
 
 SCALE_LIMIT = 0.25
@@ -99,7 +97,7 @@ class GraphBuilder:
 
     @staticmethod
     def print_opt(opt):
-        args = inspect.getfullargspec(equation).args[1:]
+        args = getfullargspec(equation).args[1:]
         msg = "The variables found are: \n"
         for i in range(len(opt)):
             msg += "{}: {} \n".format(args[i], opt[i])
