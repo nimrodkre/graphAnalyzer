@@ -3,8 +3,8 @@ from GraphAnalyzerError import GraphAnalyzerError
 
 
 class JsonAnalyzer:
-    def __init__(self):
-        with open("graphDescription.json", "r") as json_data:
+    def __init__(self, filelocation):
+        with open(filelocation, "r") as json_data:
             self.graph_data = json.load(json_data, strict=False)
         try:
             self.excel_file_location = self.graph_data["excel_file_location"]
