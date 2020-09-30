@@ -16,11 +16,7 @@ class JsonAnalyzer:
                 "y_axis_errors_column_name"]
             self.graph_title = self.graph_data["graph_title"]
             self.x_scale_label_title = self.graph_data["x_scale_label_title"]
-            self.x_scale_minimum = self.graph_data["x_scale_minimum"]
-            self.x_scale_maximum = self.graph_data["x_scale_maximum"]
             self.y_scale_label_title = self.graph_data["y_scale_label_title"]
-            self.y_scale_minimum = self.graph_data["y_scale_minimum"]
-            self.y_scale_maximum = self.graph_data["y_scale_maximum"]
         except KeyError as err:
             raise GraphAnalyzerError(
                 "In the json file you forgot to add a row for {}. \n"
@@ -55,24 +51,8 @@ class JsonAnalyzer:
         return self._x_scale_label_title
 
     @property
-    def x_scale_minimum(self):
-        return self._x_scale_minimum
-
-    @property
-    def x_scale_maximum(self):
-        return self._x_scale_maximum
-
-    @property
     def y_scale_label_title(self):
         return self._y_scale_label_title
-
-    @property
-    def y_scale_minimum(self):
-        return self._y_scale_minimum
-
-    @property
-    def y_scale_maximum(self):
-        return self._y_scale_maximum
 
     @excel_file_location.setter
     def excel_file_location(self, location):
@@ -125,37 +105,9 @@ class JsonAnalyzer:
                 "x scale label title must be a string")
         self._x_scale_label_title = title
 
-    @x_scale_minimum.setter
-    def x_scale_minimum(self, title):
-        if not type(title) in [float, int]:
-            raise GraphAnalyzerError(
-                "x scale minimum must be a float")
-        self._x_scale_minimum = title
-
-    @x_scale_maximum.setter
-    def x_scale_maximum(self, title):
-        if not type(title) in [float, int]:
-            raise GraphAnalyzerError(
-                "x scale maximum must be a float")
-        self._x_scale_maximum = title
-
     @y_scale_label_title.setter
     def y_scale_label_title(self, title):
         if not type(title) == str:
             raise GraphAnalyzerError(
                 "y scale label title must be a string")
         self._y_scale_label_title = title
-
-    @y_scale_minimum.setter
-    def y_scale_minimum(self, title):
-        if not type(title) in [float, int]:
-            raise GraphAnalyzerError(
-                "y scale minimum must be a float")
-        self._y_scale_minimum = title
-
-    @y_scale_maximum.setter
-    def y_scale_maximum(self, title):
-        if not type(title) in [float, int]:
-            raise GraphAnalyzerError(
-                "y scale maximum must be a float")
-        self._y_scale_maximum = title

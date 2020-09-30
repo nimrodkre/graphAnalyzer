@@ -34,20 +34,12 @@ class GraphBuilder:
         Else we will use what the user wanted
         :return:
         """
-        if any([self.json_analyzer.x_scale_minimum,
-                self.json_analyzer.x_scale_maximum]):
-            return (self.json_analyzer.x_scale_minimum,
-                    self.json_analyzer.x_scale_maximum)
         return (min(self.x_data) - max(
             self.x_data) * SCALE_LIMIT,
                 max(self.x_data) + max(
                     self.x_data) * SCALE_LIMIT)
 
     def get_ylimit(self):
-        if any([self.json_analyzer.y_scale_minimum,
-                self.json_analyzer.y_scale_maximum]):
-            return (self.json_analyzer.y_scale_minimum,
-                    self.json_analyzer.y_scale_maximum)
         return (min(self.csv_analyzer.get_y_data()) - max(
             self.csv_analyzer.get_y_data()) * SCALE_LIMIT,
                 max(self.y_data) + max(
