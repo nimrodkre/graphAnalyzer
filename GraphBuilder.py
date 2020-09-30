@@ -52,6 +52,14 @@ class GraphBuilder:
         plt.xlabel(self.json_analyzer.x_scale_label_title)
         plt.ylabel(self.json_analyzer.y_scale_label_title)
 
+    def init_residual_graph(self, y_data):
+        plt.xlim(self.get_xlimit())
+        plt.ylim((min(y_data)[0] - max(y_data)[0] * SCALE_LIMIT,
+                  max(y_data)[0] + max(y_data)[0] * SCALE_LIMIT))
+        plt.title(self.json_analyzer.residual_graph_title)
+        plt.xlabel(self.json_analyzer.residual_x_scale_label_title)
+        plt.ylabel(self.json_analyzer.residual_y_scale_label_title)
+
     def build_graph(self):
         """
         In charge of building the graph.
@@ -82,9 +90,7 @@ class GraphBuilder:
         diff = []
         for i, xval in enumerate(self.x_data):
             diff.append([self.y_data[i] - self.equation(xval, *opt)])
-        plt.ylim((min(diff)[0] - max(diff)[0] * SCALE_LIMIT,
-                  max(diff)[0] + max(diff)[0] * SCALE_LIMIT))
-        self.init_graph()
+        self.init_residual_graph(diff)
         plt.scatter(self.x_data, diff)
         plt.show()
 

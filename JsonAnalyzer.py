@@ -15,8 +15,13 @@ class JsonAnalyzer:
             self.y_axis_errors_column_name = self.graph_data[
                 "y_axis_errors_column_name"]
             self.graph_title = self.graph_data["graph_title"]
+            self.residual_graph_title = self.graph_data["residual_graph_title"]
             self.x_scale_label_title = self.graph_data["x_scale_label_title"]
             self.y_scale_label_title = self.graph_data["y_scale_label_title"]
+            self.residual_x_scale_label_title = self.graph_data[
+                "residual_x_scale_label_title"]
+            self.residual_y_scale_label_title = self.graph_data[
+                "residual_y_scale_label_title"]
         except KeyError as err:
             raise GraphAnalyzerError(
                 "In the json file you forgot to add a row for {}. \n"
@@ -47,12 +52,24 @@ class JsonAnalyzer:
         return self._graph_title
 
     @property
+    def residual_graph_title(self):
+        return self._residual_graph_title
+
+    @property
     def x_scale_label_title(self):
         return self._x_scale_label_title
 
     @property
     def y_scale_label_title(self):
-        return self._y_scale_label_title
+        return self._y_scale_label_title    \
+
+    @property
+    def residual_x_scale_label_title(self):
+        return self._residual_x_scale_label_title
+
+    @property
+    def residual_y_scale_label_title(self):
+        return self._residual_y_scale_label_title
 
     @excel_file_location.setter
     def excel_file_location(self, location):
@@ -96,7 +113,14 @@ class JsonAnalyzer:
         if not type(title) == str:
             raise GraphAnalyzerError(
                 "graph title must be a string")
-        self._graph_title = title
+        self._graph_title = title    \
+
+    @residual_graph_title.setter
+    def residual_graph_title(self, title):
+        if not type(title) == str:
+            raise GraphAnalyzerError(
+                "residual graph title must be a string")
+        self._residual_graph_title = title
 
     @x_scale_label_title.setter
     def x_scale_label_title(self, title):
@@ -110,4 +134,18 @@ class JsonAnalyzer:
         if not type(title) == str:
             raise GraphAnalyzerError(
                 "y scale label title must be a string")
-        self._y_scale_label_title = title
+        self._y_scale_label_title = title    \
+
+    @residual_x_scale_label_title.setter
+    def residual_x_scale_label_title(self, title):
+        if not type(title) == str:
+            raise GraphAnalyzerError(
+                "residual x scale label title must be a string")
+        self._residual_x_scale_label_title = title
+
+    @residual_y_scale_label_title.setter
+    def residual_y_scale_label_title(self, title):
+        if not type(title) == str:
+            raise GraphAnalyzerError(
+                "residual y scale label title must be a string")
+        self._residual_y_scale_label_title = title
